@@ -1,0 +1,93 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.2"
+    defaultConfig {
+        applicationId "com.xunixianshi.vrlanucher"
+        minSdkVersion 23
+        targetSdkVersion 25
+        versionCode 126
+        versionName "1.2.6"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+//    dexOptions {
+//        preDexLibraries = false
+//    }
+
+    // 签名
+    signingConfigs {
+        release {
+            storeFile file("keystore/APKKEY.jks")
+            storePassword "3glasses"
+            keyAlias "vrshow"
+            keyPassword "3glasses"
+        }
+//        debug {
+//            storeFile file("keystore/APKKEY.jks")
+//            storePassword "3glasses"
+//            keyAlias "vrshow"
+//            keyPassword "3glasses"
+//        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (variant.buildType.name.equals('release')) {
+                        def fileName = "3boxLauncher_" +"v" +versionName+"_"+ releaseTime() +".apk";
+                        outputFile = new File(outputFile.parent, fileName)
+                    } else if (variant.buildType.name.equals('debug')) {
+                        def fileName = "3boxLauncher_" +"v" +versionName+"_"+ releaseTime() + ".apk";
+                        outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+}
+}
+}
+
+// 生成版本的时间
+def releaseTime() {
+    return new Date().format("yyyyMMddHH")
+}
+
+allprojects {
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile(name: 'android_plugin_lib-release', ext: 'aar')
+//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
+//    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta3'
+    testCompile 'junit:junit:4.12'
+    compile (project(':okhttputils'))
+    compile (project(':viewlib'))
+    //	compile(name: 'gvr', ext:'aar')
+    //	compile(name: 'unitygvr', ext:'aar')
+    compile 'com.akexorcist:bluetoothspp:1.0.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    // 事件总线
+    compile ('zlc.season:rxdownload2:2.0.4')
+    //多线程下载
+    //数据库工具库 https://github.com/pardom/ActiveAndroid
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+
+}

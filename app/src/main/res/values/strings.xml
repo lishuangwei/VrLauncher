@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">3BoxLanucher</string>
+    <string name="uninstall_fail">Uninstall Failed</string>
+    <string name="bluetooth_not_available">bluetooth_not_available</string>
+    <string name="install_success">Installation success</string>
+    <string name="replace_success">Replace success</string>
+    <string name="uninstall_success">Uninstall success</string>
+</resources>
